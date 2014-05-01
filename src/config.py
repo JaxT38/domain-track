@@ -1,7 +1,7 @@
 '''
 Created on May 1, 2014
 
-@author: sgk
+@author: nelsoncs
 '''
 
 class Config():
@@ -19,14 +19,14 @@ class Config():
         pass
     
     # TODO error handling
-    def load_file(self):
+    def loadFile(self):
         configFile = open( self.fileName, "r" )
         for eachLine in configFile:
             print( eachLine )
         configFile.close()
     
     # TODO error handling
-    def save_file(self):
+    def saveFile(self):
         pass
     
 if __name__ == '__main__':

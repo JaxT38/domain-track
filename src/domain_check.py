@@ -1,7 +1,7 @@
 '''
 Created on Apr 28, 2014
 
-@author: sgk
+@author: nelsoncs
 '''
 import tkinter
 import src.ui
@@ -19,10 +19,10 @@ class DomainCheck():
         ui = src.ui.Ui( master=self.root )
         ui.mainloop()
 
-    def load_configured_data( self ):
-        self.whois_lines = self.config.load_file()
+    def loadConfiguredData( self ):
+        self.whoisLines = self.config.loadFile()
         
-        for line in self.whois_lines:
+        for line in self.whoisLines:
             self.ui.print_table_row( self, line )
         
 

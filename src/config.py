@@ -31,8 +31,7 @@ class Config():
             print( self.fileName )
             
             for line in configFile:
-                self.fileBuffer.append( line )
-                
+                self.fileBuffer.append( line )        
             configFile.close()
         
     # TODO error handling, check location if not saving under default name
@@ -40,11 +39,17 @@ class Config():
     def appendConfFile( self, url ):
         try:
             configFile = open( self.fileName, "a" )
-            written  = configFile.write( url + "\n" )
-            print( "written bytes = ", written )
-            configFile.close()
         except (IOError, BlockingIOError):
-            print( 'File I/O error.' )
+            print( 'File I/O error when opening ', configFile )
+        else:
+            try:
+                written  = configFile.write( url + "\n" )
+            except ( IOError, BlockingIOError ):
+                print( 'File I/O error when writing to ', configFile )
+            else:
+                print( "written bytes = ", written, ' to ', configFile )
+                configFile.close()
+
     
 if __name__ == '__main__':
     c = Config( 'domain_check.conf'  )

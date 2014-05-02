@@ -11,7 +11,7 @@ class DomainCheck():
     
     def __init__( self ):
         self.parser = src.parse.Parse( self )
-        self.config = src.config.Config( self )
+        self.config = src.config.Config( self, 'domain_check.conf' )
         
         self.load_configured_data()
         
@@ -20,7 +20,7 @@ class DomainCheck():
         ui.mainloop()
 
     def loadConfiguredData( self ):
-        self.whoisLines = self.config.loadFile()
+        self.whoisLines = self.config.loadConfFile()
         
         for line in self.whoisLines:
             self.ui.print_table_row( self, line )

@@ -9,6 +9,8 @@ class Ui(tkinter.Frame):
     '''
     classdocs
     '''
+    current_x = 0
+    current_y = 0
 
 
     def __init__(self, master=None):
@@ -17,13 +19,13 @@ class Ui(tkinter.Frame):
         self.pack()
         
     def createWidgets(self, master=None):
-        self.canvas = tkinter.Canvas(master, width = 300, height =200 )
+        self.canvas = tkinter.Canvas(master, width = 300, height =600 )
         
         self.lineHorizontal(0, 300, 25)
         self.lineVertical(1, 0, 60)
         self.lineVertical(60, 0, 60)
         
-        self.canvas.create_text(10, 10, anchor = 'nw', state = 'normal', text = "Stuff")
+        
         
         self.canvas.pack()
 
@@ -39,8 +41,15 @@ class Ui(tkinter.Frame):
     def lineVertical(self, x, orig_y, distal_y):
         self.canvas.create_line(x, orig_y, x, distal_y)
         
-    def printTableRow( self, line ):
-        pass
+    def printTableRow( self, record ):
+        self.current_y += 30
+        self.canvas.create_text(10, self.current_y, anchor = 'nw', state = 'normal', 
+                                text = "Registrar Registration Expiration Date"
+                                )
+        self.current_y += 30
+        self.canvas.create_text(10, self.current_y, anchor = 'nw', state = 'normal',
+                                text = record['Registrar Registration Expiration Date']
+                                )
     
     def autoClearEntry( self ):
         pass

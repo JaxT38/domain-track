@@ -20,16 +20,16 @@ class Config():
         Constructor
         '''
         self.fileName = fileName
+        self.loadConfFile( fileName )
     
     # TODO better error handling, allow user to browse if default is not found
-    def loadConfFile(self):
+    def loadConfFile( self, fileName ):
         try:
-            configFile = open( self.fileName, "r" )
+            configFile = open( fileName, "r" )
         except IOError:
             print( 'File I/O error.' )
         else:
-            print( self.fileName )
-            
+            print( fileName )
             for line in configFile:
                 self.fileBuffer.append( line )        
             configFile.close()
@@ -56,6 +56,6 @@ if __name__ == '__main__':
     Basic tests for the Config class
     '''
     c = Config( 'domain_check.conf'  )
-    c.loadConfFile()
     c.appendConfFile( 'tesla.com' )
+    print( c.fileName )
     print( c.fileBuffer )

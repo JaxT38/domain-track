@@ -18,25 +18,34 @@ Created on Apr 28, 2014
 import tkinter
 import src.ui
 import src.config
+import src.parse
 
 class DomainCheck():
     
     def __init__( self ):
-        self.parser = src.parse.Parse( self )
-        self.config = src.config.Config( self, 'domain_check.conf' )
+        # load the config file
+        self.config = src.config.Config( 'domain_check.conf' )
         
-        self.load_configured_data()
-        
+        #setup tkinter window
         self.root = tkinter.Tk()
         ui = src.ui.Ui( master=self.root )
+        
+        # parse the config data
+        self.loadConfiguredData( self.config, ui )
+        
         ui.mainloop()
 
-    def loadConfiguredData( self ):
-        self.whoisLines = self.config.loadConfFile()
-        
-        for line in self.whoisLines:
-            self.ui.print_table_row( self, line )
-        
+    '''
+    
+    '''
+    def loadConfiguredData( self, config, ui ):
+        print( config.fileBuffer )
+        for domain in config.fileBuffer:
+            print( domain )
+            p = src.parse.Parse( domain.strip() )
+            #print( p.record )
+            print( "Registrar Registration Expiration Date",  p.record['Registrar Registration Expiration Date'])
+            ui.printTableRow( p.record )
 
 if __name__ == '__main__':
     dc = DomainCheck()

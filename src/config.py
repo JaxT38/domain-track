@@ -52,6 +52,9 @@ class Config():
 
     
 if __name__ == '__main__':
+    '''
+    Basic tests for the Config class
+    '''
     c = Config( 'domain_check.conf'  )
     c.loadConfFile()
     c.appendConfFile( 'tesla.com' )

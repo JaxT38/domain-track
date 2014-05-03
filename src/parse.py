@@ -1,4 +1,7 @@
 '''
+parse.py - uses subprocess.Popen to capture stdout from sys utility 'whois'
+           and retain all lines containing ':', as a separator, for key:value pairs.
+
 Created on Apr 28, 2014
 
 @author: nelsoncs
@@ -7,28 +10,47 @@ import subprocess
 
 class Parse():
     
-    record = []
+    whoisLines = []
+    record = {}
     
     def __init__( self, url ):
-        self.callWhois( url )
+        self.whoisLines = self.callWhois( url )
+        self.parseLines( self.whoisLines )
         
-    def parseLines( self, record ):
-        #return whoisLines
-        pass    
-            
+    def parseLines( self, whoisLines ):
+        countLine = 1
+        
+        for element in whoisLines:
+            if element.count( ': ' ) > 0:
+                splitElement = element.split( sep = ': ', maxsplit = 1 )
+                #print( splitElement )
+                #print( splitElement[0], "  : ", splitElement[1] )
+                self.record[splitElement[0]] = splitElement[1]
+            else:
+                print( "Skipped line", countLine )
+            countLine += 1
+    
+    # TODO why does this declare a local var and return a list instead of no return value        
     def callWhois( self, url ):
-        with subprocess.Popen(['whois', url], stdout = subprocess.PIPE ) as proc:
-            print( proc.stdout.read() )
-            print("------->")
-        
-        whoisLines = []
-        whoisLines = self.parseLines( self, self.record )
-        return 
+        with subprocess.Popen(['whois', url], 
+                              stdout = subprocess.PIPE,
+                              universal_newlines = True 
+                              ) as proc:
+            whoisLines = proc.stdout.read().splitlines()
+        return whoisLines
     
     def urlValidate( self ):
-        pass
+        pass 
 
 if __name__ == '__main__':
+    '''
+    Basic tests for the parse.py classe
+    '''
+    
     p = Parse( 'colenelson.net' )
+    print( "whoisLines" )
+    print( p.whoisLines )
+    print( "record : ")
+    print( p.record )
 
     

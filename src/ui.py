@@ -1,4 +1,8 @@
 '''
+ui.py - creates a tkinter canvas, presents whois data fields as a table with a
+        single line header and gird lines.  TODO: Sorts entries by date and colors 
+        entries with less than one month expiration red and three months as orange.
+
 Created on Apr 28, 2014
 
 @author: nelsoncs
@@ -20,13 +24,6 @@ class Ui(tkinter.Frame):
         
     def createWidgets(self, master=None):
         self.canvas = tkinter.Canvas(master, width = 300, height =600 )
-        
-        self.lineHorizontal(0, 300, 25)
-        self.lineVertical(1, 0, 60)
-        self.lineVertical(60, 0, 60)
-        
-        
-        
         self.canvas.pack()
 
         self.entryUrl = tkinter.Entry(master, background = 'white', width = 50)
@@ -50,6 +47,18 @@ class Ui(tkinter.Frame):
         self.canvas.create_text(10, self.current_y, anchor = 'nw', state = 'normal',
                                 text = record['Registrar Registration Expiration Date']
                                 )
+    def printTable( self, records ):
+        
+        # determine fields sizes
+        
+        # determine total width
+        
+        # determine total height
+        
+        # print header
+        
+        # print records
+        pass
     
     def autoClearEntry( self ):
         pass

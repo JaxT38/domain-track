@@ -1,7 +1,7 @@
 '''
 domain_check.py - Parses sys utility 'whois' output for a set of domain name 
-                  urls and puts up a tkinter canvas object showing urls, registrars
-                  and expiration dates.
+                  urls and puts up a tkinter canvas object instance showing urls, 
+                  registrars and expiration dates.
                   A simple configuration file (domain_check.conf) is used to retain
                   a search list.
                   Written for linux and unices, but might work on windows with:
@@ -22,6 +22,8 @@ import src.parse
 
 class DomainCheck():
     
+    listOfRecords = []
+    
     def __init__( self ):
         # load the config file
         self.config = src.config.Config( 'domain_check.conf' )
@@ -30,22 +32,22 @@ class DomainCheck():
         self.root = tkinter.Tk()
         ui = src.ui.Ui( master=self.root )
         
-        # parse the config data
-        self.loadConfiguredData( self.config, ui )
+        # parse the config data and display in gui
+        self._parseConfiguredData( self.config )
+        self._displayListOfRecords( ui )
         
         ui.mainloop()
 
-    '''
-    
-    '''
-    def loadConfiguredData( self, config, ui ):
+    def _parseConfiguredData( self, config ):
         print( config.fileBuffer )
         for domain in config.fileBuffer:
             print( domain )
             p = src.parse.Parse( domain.strip() )
-            #print( p.record )
-            print( "Registrar Registration Expiration Date",  p.record['Registrar Registration Expiration Date'])
-            ui.printTableRow( p.record )
+            self.listOfRecords.append( p )
+            
+    def _displayListOfRecords( self, ui ):
+        ui.printTable( self.listOfRecords)
 
 if __name__ == '__main__':
     dc = DomainCheck()
+    

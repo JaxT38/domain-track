@@ -10,43 +10,27 @@ domain_check.py - Parses sys utility 'whois' output for a set of domain name
                   Each class has a __main__ for basic tests, run the program using
                   'python domain_check.py'.  Written for python 3.4.
 
-
 Created on Apr 28, 2014
 
 @author: nelsoncs
 '''
 import tkinter
 import src.ui
-import src.config
-import src.parse
+import src.data
 
 class DomainCheck():
     
-    listOfRecords = []
-    
     def __init__( self ):
-        # load the config file
-        self.config = src.config.Config( 'domain_check.conf' )
-        
-        #setup tkinter window
+        # setup tkinter window
         self.root = tkinter.Tk()
         ui = src.ui.Ui( master=self.root )
         
-        # parse the config data and display in gui
-        self._parseConfiguredData( self.config )
-        self._displayListOfRecords( ui )
+        # source whois data from urls in config file
+        self.data = src.data.DomainData()
         
-        ui.mainloop()
-
-    def _parseConfiguredData( self, config ):
-        print( config.fileBuffer )
-        for domain in config.fileBuffer:
-            print( domain )
-            p = src.parse.Parse( domain.strip() )
-            self.listOfRecords.append( p )
-            
-    def _displayListOfRecords( self, ui ):
-        ui.printTable( self.listOfRecords)
+        ui.printTable( self.data.listOfRecords)
+        
+        ui.mainloop()  
 
 if __name__ == '__main__':
     dc = DomainCheck()

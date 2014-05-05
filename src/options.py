@@ -12,7 +12,7 @@ class Options():
     '''
 
     # TODO tick boxes to select displayed data
-    options = [
+    displayItems = [
                "Domain Name",
                "Registrar URL",
                "Name Server",

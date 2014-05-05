@@ -8,6 +8,7 @@ Created on Apr 28, 2014
 @author: nelsoncs
 '''
 import tkinter
+import src.options
 
 class Ui(tkinter.Frame):
     '''
@@ -21,6 +22,9 @@ class Ui(tkinter.Frame):
         tkinter.Frame.__init__(self, master)
         self.createWidgets(master)
         self.pack()
+        
+        # data items to display
+        self.options = src.options.Options()
         
     def createWidgets(self, master=None):
         self.canvas = tkinter.Canvas(master, width = 300, height =600 )

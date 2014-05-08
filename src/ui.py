@@ -71,6 +71,11 @@ class Ui(tkinter.Frame):
                                     )
             self.current_x += 180
             
+        # print separator
+        self.lineHorizontal(10, 190 * len( self.options.displayItems ), 
+                            (self.current_y + 15) 
+                           )
+            
         # print records
         self.current_y += 20
         for r in records:

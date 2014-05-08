@@ -23,7 +23,7 @@ class DomainData():
         self.sortField     = "Registrar Registration Expiration Date"
     
         # load the config file
-        self.config = src.config.Config( 'domain_check.conf' )
+        self.config = src.config.Config( 'domain_track.conf' )
         
         # parse the config data and display in gui
         self._parseConfiguredData( self.config )

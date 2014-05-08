@@ -26,9 +26,9 @@ class DomainCheck():
         ui = src.ui.Ui( master=self.root )
         
         # source whois data from urls in config file
-        self.data = src.data.DomainData()
+        dd = src.data.DomainData()
         
-        ui.printTable( self.data.listOfRecords)
+        ui.printTable( dd.domainRecords )
         
         ui.mainloop()  
 

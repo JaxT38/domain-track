@@ -8,19 +8,20 @@ Created on May 4, 2014
 '''
 import src.config
 import src.parse
+import src.options
 
 class DomainData():
     '''
     classdocs
     '''
-    
-    listOfRecords = []
-    sortField     = "Registrar Registration Expiration Date"
 
     def __init__( self ):
         '''
         Constructor
         '''
+        self.domainRecords = []
+        self.sortField     = "Registrar Registration Expiration Date"
+    
         # load the config file
         self.config = src.config.Config( 'domain_check.conf' )
         
@@ -30,18 +31,34 @@ class DomainData():
     def _parseConfiguredData( self, config ):
         print( config.fileBuffer )
         for domain in config.fileBuffer:
-            print( domain )
+            print( domain, "-------------------------------" )
             p = src.parse.Parse( domain.strip() )
-            self.listOfRecords.append( p )
+            self.domainRecords.append( p )
             
         self.sortConfiguredData( self.sortField )
             
     def sortConfiguredData( self, sortKey ):
         pass
     
-# TODO better test
+    # print only items found in options
+    def printRecord( self, record ):
+        options = src.options.Options()
+        print("printRecord()")
+        for key in options.displayItems:
+            print( record[key] )
+
 if __name__ == '__main__':
     dd = DomainData()
-    print( dd.listOfRecords )
-    dd.sortConfiguredData( dd.sortField )
-    print( dd.listOfRecords )
+    print("--------------------------***")
+    print( dd.domainRecords )
+    print("--------------------------###")
+    #dd.sortConfiguredData( dd.sortField )
+    #print( dd.dictOfRecords )
+    
+    options = src.options.Options()
+    
+    for r in dd.domainRecords:
+        dd.printRecord( r.record )
+
+            
+            

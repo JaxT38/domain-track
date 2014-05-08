@@ -2,6 +2,7 @@
 ui.py - creates a tkinter canvas, presents whois data fields as a table with a
         single line header and gird lines.  TODO: Sorts entries by date and colors 
         entries with less than one month expiration red and three months as orange.
+        TODO - class has too much responsibility for data manipulation
 
 Created on Apr 28, 2014
 
@@ -14,11 +15,11 @@ class Ui(tkinter.Frame):
     '''
     classdocs
     '''
-    current_x = 0
-    current_y = 0
-
 
     def __init__(self, master=None):
+        self.current_x = 10
+        self.current_y = 10
+    
         tkinter.Frame.__init__(self, master)
         self.createWidgets(master)
         self.pack()
@@ -27,7 +28,7 @@ class Ui(tkinter.Frame):
         self.options = src.options.Options()
         
     def createWidgets(self, master=None):
-        self.canvas = tkinter.Canvas(master, width = 300, height =600 )
+        self.canvas = tkinter.Canvas(master, width = 800, height =600 )
         self.canvas.pack()
 
         self.entryUrl = tkinter.Entry(master, background = 'white', width = 50)
@@ -53,16 +54,37 @@ class Ui(tkinter.Frame):
                                 )
     def printTable( self, records ):
         
-        # determine fields sizes
+        # determine field sizes
         
         # determine total width
         
         # determine total height
         
         # print header
-        
+        for heading in self.options.displayItems:
+            self.canvas.create_text(
+                                    self.current_x, 
+                                    self.current_y, 
+                                    anchor = 'nw', 
+                                    state = 'normal', 
+                                    text = heading
+                                    )
+            self.current_x += 180
+            
         # print records
-        pass
+        self.current_y += 20
+        for r in records:
+            self.current_x = 10
+            for key in self.options.displayItems:
+                self.canvas.create_text(
+                                    self.current_x, 
+                                    self.current_y, 
+                                    anchor = 'nw', 
+                                    state = 'normal', 
+                                    text = r.record[key]
+                                    )
+                self.current_x += 180
+            self.current_y += 20
     
     def autoClearEntry( self ):
         pass

@@ -11,19 +11,18 @@ class Options():
     classdocs
     '''
 
-    # TODO tick boxes to select displayed data
-    displayItems = [
-               "Domain Name",
-               "Registrar URL",
-               "Name Server",
-               "Registrar Registration Expiration Date"
-               ]
-    
     def __init__( self ):
         '''
         Constructor
         '''
-        pass
+            # TODO tick boxes to select displayed data
+        self.displayItems = [
+                   "Domain Name",
+                   "Registrar URL",
+                   "Name Server",
+                   "Registrar Registration Expiration Date"
+                   ]
+    
         
 if __name__ == '__main__':
     pass

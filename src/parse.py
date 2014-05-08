@@ -10,10 +10,10 @@ import subprocess
 
 class Parse():
     
-    whoisLines = []
-    record = {}
-    
     def __init__( self, url ):
+        self.whoisLines = []
+        self.record = {}
+        
         self.whoisLines = self.callWhois( url )
         self.parseLines( self.whoisLines )
         
@@ -27,7 +27,8 @@ class Parse():
                 #print( splitElement[0], "  : ", splitElement[1] )
                 self.record[splitElement[0]] = splitElement[1]
             else:
-                print( "Skipped line", countLine )
+                #print( "Skipped line", countLine )
+                pass
             countLine += 1
     
     # TODO why does this declare a local var and return a list instead of no return value        
@@ -52,5 +53,14 @@ if __name__ == '__main__':
     print( p.whoisLines )
     print( "record : ")
     print( p.record )
-
+    print( p.record["Domain Name"] )
+    
+    print("---------------------------")
+    
+    p = Parse('instrument.com')
+    print( "whoisLines" )
+    print( p.whoisLines )
+    print( "record : ")
+    print( p.record )
+    print( p.record["Domain Name"] )
     

@@ -13,12 +13,12 @@ class Config():
     classdocs
     '''
 
-    fileBuffer = []
-
     def __init__( self, fileName ):
         '''
         Constructor
         '''
+        self.fileBuffer = []
+        
         self.fileName = fileName
         self.loadConfFile( fileName )
     

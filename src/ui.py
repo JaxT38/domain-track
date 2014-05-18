@@ -42,16 +42,7 @@ class Ui(tkinter.Frame):
     # TODO pass canvas in as param
     def lineVertical(self, x, orig_y, distal_y):
         self.canvas.create_line(x, orig_y, x, distal_y)
-        
-    def printTableRow( self, record ):
-        self.current_y += 30
-        self.canvas.create_text(10, self.current_y, anchor = 'nw', state = 'normal', 
-                                text = "Registrar Registration Expiration Date"
-                                )
-        self.current_y += 30
-        self.canvas.create_text(10, self.current_y, anchor = 'nw', state = 'normal',
-                                text = record['Registrar Registration Expiration Date']
-                                )
+
     def printTable( self, records ):
         
         # determine field sizes

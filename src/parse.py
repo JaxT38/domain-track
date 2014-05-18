@@ -45,20 +45,26 @@ class Parse():
 
 if __name__ == '__main__':
     '''
-    Basic tests for the parse.py classe
+    Basic tests for the parse.py class
     '''
     
     p = Parse( 'colenelson.net' )
-    print( "whoisLines" )
+    print("repr(Parse):")
+    repr(p)
+    str(p)
+    
+    print("---------------------------")
+    
+    print( "whoisLines : " )
     print( p.whoisLines )
     print( "record : ")
     print( p.record )
     print( p.record["Domain Name"] )
-    
+
     print("---------------------------")
     
     p = Parse('instrument.com')
-    print( "whoisLines" )
+    print( "whoisLines : " )
     print( p.whoisLines )
     print( "record : ")
     print( p.record )

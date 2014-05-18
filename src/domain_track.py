@@ -16,7 +16,7 @@ Created on Apr 28, 2014
 '''
 import tkinter
 import src.ui
-import src.data
+import src.domainData
 
 class DomainTrack():
     
@@ -26,7 +26,7 @@ class DomainTrack():
         ui = src.ui.Ui( master=self.root )
         
         # source whois data from urls in config file
-        dd = src.data.DomainData()
+        dd = src.domainData.DomainData()
         
         ui.printTable( dd.domainRecords )
         

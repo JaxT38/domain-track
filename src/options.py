@@ -23,6 +23,13 @@ class Options():
                    "Registrar Registration Expiration Date"
                    ]
     
+    def itemWidth( self ):
+        pass
+    
+    def itemHeight( self ):
+        pass
+    
+    
         
 if __name__ == '__main__':
     pass

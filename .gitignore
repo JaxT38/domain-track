@@ -2,3 +2,9 @@ src/__pycache__
 src/domain_track.conf
 .project
 .pydevproject
+*.so.*
+*.so
+*.pyc
+*.*.pyc
+dist
+__pycache__

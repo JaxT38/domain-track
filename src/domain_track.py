@@ -24,6 +24,7 @@ class DomainTrack():
         # setup tkinter window
         self.root = tkinter.Tk()
         ui = src.ui.Ui( master=self.root )
+        self.root.title( "Domain Tracker - NcsAppSoft.com - 2014" )
         
         # source whois data from urls in config file
         dd = src.domainData.DomainData()

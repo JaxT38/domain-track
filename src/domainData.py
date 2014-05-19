@@ -6,7 +6,6 @@ Created on May 4, 2014
 
 @author: nelsoncs
 '''
-import operator
 import src.config
 import src.parse
 import src.options
@@ -17,11 +16,18 @@ class DomainData():
     '''
 
     def __init__( self ):
-        '''
-        Constructor
-        '''
+
+        #
+        #  Data attributes
+        #
         self.domainRecords = []
+        
+        #TODO  tie to Options
         self.sortField     = "Registrar Registration Expiration Date"
+    
+        #
+        #  constructor items
+        #
     
         # load the config file
         self.config = src.config.Config( 'domain_track.conf' )
@@ -30,6 +36,7 @@ class DomainData():
         self._parseConfiguredData( self.config )
         
         # sort before display
+        # TODO pull out to a class for an "options" panel
         self.sortConfiguredData( self.sortField )
     
     def _parseConfiguredData( self, config ):
@@ -42,6 +49,20 @@ class DomainData():
     def sortConfiguredData( self, sortKey ):
         self.domainRecords.sort( key = lambda ddl: ddl.record[sortKey] )
         pass
+            
+    def longest(self):
+        longest = 0
+        
+        # find longest header item
+        for item in self.options:
+            longest = item.width()
+            
+            for rec in self.domainRecords:
+                if rec.record( item ).width() > longest:
+                    longest = rec.record( item ).width()
+            
+        # find longest
+        pass 
     
     # print only items found in options
     def printRecord( self, record ):

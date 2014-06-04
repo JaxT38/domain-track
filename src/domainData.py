@@ -11,16 +11,12 @@ import src.parse
 import src.options
 
 class DomainData():
-    '''
-    classdocs
-    '''
+    #
+    #  Data as singletons (class attribute)
+    #
+    domainRecords = []
 
     def __init__( self ):
-
-        #
-        #  Data attributes
-        #
-        self.domainRecords = []
         
         #TODO  tie to Options
         self.sortField     = "Registrar Registration Expiration Date"
@@ -48,20 +44,6 @@ class DomainData():
             
     def sortConfiguredData( self, sortKey ):
         self.domainRecords.sort( key = lambda ddl: ddl.record[sortKey] )
-        pass
-            
-    def longest(self):
-        longest = 0
-        
-        # find longest header item
-        for item in self.options:
-            longest = item.width()
-            
-            for rec in self.domainRecords:
-                if rec.record( item ).width() > longest:
-                    longest = rec.record( item ).width()
-            
-        # find longest
         pass 
     
     # print only items found in options

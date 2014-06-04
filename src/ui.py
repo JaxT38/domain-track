@@ -9,7 +9,9 @@ Created on Apr 28, 2014
 @author: nelsoncs
 '''
 import tkinter
+import tkinter.font
 import src.options
+import src.uiMetrics
 
 class Ui(tkinter.Frame):
     '''
@@ -26,6 +28,10 @@ class Ui(tkinter.Frame):
         
         # data items to display
         self.options = src.options.Options()
+        
+        # get default tkfont and will be used it to measure line lengths
+        self.font    = tkinter.font.Font()
+        self.metrics = src.uiMetrics.UiMetrics( self.font )
         
     def createWidgets(self, master=None):
         self.canvas = tkinter.Canvas(master, width = 800, height =600 )
@@ -46,7 +52,7 @@ class Ui(tkinter.Frame):
     def printTable( self, records ):
         
         # determine field sizes
-        
+        longest = self.metrics.longest( records )
         # determine total width
         
         # determine total height
@@ -58,7 +64,7 @@ class Ui(tkinter.Frame):
                                     self.current_y, 
                                     anchor = 'nw', 
                                     state = 'normal', 
-                                    text = heading
+                                    text = heading.title()
                                     )
             self.current_x += 180
             
@@ -77,7 +83,7 @@ class Ui(tkinter.Frame):
                                     self.current_y, 
                                     anchor = 'nw', 
                                     state = 'normal', 
-                                    text = r.record[key]
+                                    text = r.record[key].lower()
                                     )
                 self.current_x += 180
             self.current_y += 20

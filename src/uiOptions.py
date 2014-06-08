@@ -46,12 +46,12 @@ if __name__ == "__main__":
     
     #f = tkinter.font.Font( family = 'TkTextFont', size = 42, weight = 'normal'  )
     f = tkinter.font.Font()
-    om = UiOptions( f )
+    uo = UiOptions( f )
     
-    for index in range( len(om.displayItems) ):
-        print( om.width( f, index ), ", ", om.height( f ) )
+    for index in range( len(uo.displayItems) ):
+        print( uo.width( f, index ), ", ", uo.height( f ) )
         
     print( "print lengths: " )
-    print( om.lengths )
+    print( uo.lengths )
     
     

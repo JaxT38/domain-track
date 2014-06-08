@@ -17,19 +17,17 @@ class Parse():
         self.whoisLines = self.callWhois( url )
         self.parseLines( self.whoisLines )
         
-    def parseLines( self, whoisLines ):
-        countLine = 1
-        
+    def parseLines( self, whoisLines ):       
         for element in whoisLines:
             if element.count( ': ' ) > 0:
                 splitElement = element.split( sep = ': ', maxsplit = 1 )
                 #print( splitElement )
                 #print( splitElement[0], "  : ", splitElement[1] )
-                self.record[splitElement[0]] = splitElement[1]
+                splitElement[1] = splitElement[1].rstrip("/")
+                self.record[splitElement[0]] = splitElement[1].strip()
             else:
                 #print( "Skipped line", countLine )
                 pass
-            countLine += 1
     
     # TODO why does this declare a local var and return a list instead of no return value        
     def callWhois( self, url ):

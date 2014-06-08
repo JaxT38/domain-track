@@ -16,17 +16,14 @@ class DomainData():
     #
     domainRecords = []
 
-    def __init__( self ):
+    def __init__( self, file ):
+        self.configFile = file
         
         #TODO  tie to Options
-        self.sortField     = "Registrar Registration Expiration Date"
-    
-        #
-        #  constructor items
-        #
+        self.sortField = "Registrar Registration Expiration Date"
     
         # load the config file
-        self.config = src.config.Config( 'domain_track.conf' )
+        self.config = src.config.Config( self.configFile )
         
         # parse the config data
         self._parseConfiguredData( self.config )
@@ -44,7 +41,6 @@ class DomainData():
             
     def sortConfiguredData( self, sortKey ):
         self.domainRecords.sort( key = lambda ddl: ddl.record[sortKey] )
-        pass 
     
     # print only items found in options
     def printRecord( self, record ):
@@ -54,7 +50,7 @@ class DomainData():
             print( record[key] )
 
 if __name__ == '__main__':
-    dd = DomainData()
+    dd = DomainData("domain_track.conf")
     print("repr(DomainData):")
     repr(dd)
     str(dd)

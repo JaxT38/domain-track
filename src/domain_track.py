@@ -20,16 +20,20 @@ import src.domainData
 
 class DomainTrack():
     
+    title      = "Domain Tracker - NcsAppSoft.com - 2014"
+    configFile = "domain_track.conf"
+    
     def __init__( self ):
         # setup tkinter window
         self.root = tkinter.Tk()
-        ui = src.ui.Ui( master=self.root )
-        self.root.title( "Domain Tracker - NcsAppSoft.com - 2014" )
+        self.root.title( self.title )
         
         # source whois data from urls in config file
-        dd = src.domainData.DomainData()
+        dd = src.domainData.DomainData( self.configFile )
         
-        ui.printTable( dd.domainRecords )
+        # instantiate user interface
+        ui = src.ui.Ui( dd.domainRecords, master=self.root )
+        ui.printTable()
         
         ui.mainloop()  
 

@@ -18,29 +18,31 @@ class UiMetrics():
         '''
         Constructor
         '''
-        print("enter constructor")
         # mapping of records by heading to longest length in pixels for current
         # set of records
         self.lengths = {}
         
         # access lengths of Options for table headings
-        self.font = tkinter.font.Font()
-        self.option = src.uiOptions.UiOptions( font )
+        self.font = font
+        self.option = src.uiOptions.UiOptions( self.font )
                 
         self.domainRecords = domainRecords
         
-        # initalize map (dict) keys - simplifies following nested clause
+        # initalize map (dict) keys - simplifies the following nested clause
         for option in self.option.displayItems:
-            self.lengths[option] = 0
+            self.lengths[option] = self.option.lengths[option]
         
         # find longest option items
         length = 0
         for option in self.option.displayItems:
             for i in range(0, len( self.domainRecords )):
-                length = self.font.measure(self.domainRecords[i].record[option])
+                length = self.font.measure(
+                                           self.domainRecords[i].record[option], 
+                                           self.font._root.focus_displayof()
+                                           )
                 if length > self.lengths[option]: self.lengths[option] = length
-                print( length )
-        print("exit constructor")
+        
+        self.height = self.option.height( self.font )
         
         
 if __name__ == "__main__":

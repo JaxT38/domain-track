@@ -8,3 +8,12 @@ src/domain_track.conf
 *.*.pyc
 dist
 __pycache__
+.Rhistory
+.pydevproject
+.project
+*.origc
+*.orig
+*.testc
+*.test
+*.conf
+*.confc

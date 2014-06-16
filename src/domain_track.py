@@ -32,7 +32,7 @@ class DomainTrack():
         dd = src.domainData.DomainData( self.configFile )
         
         # instantiate user interface
-        ui = src.ui.Ui( dd.domainRecords, master=self.root )
+        ui = src.ui.Ui( dd, master=self.root )
         ui.printTable()
         
         ui.mainloop()  

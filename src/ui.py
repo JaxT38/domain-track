@@ -23,12 +23,18 @@ class Ui(tkinter.Frame):
     '''
     corner_x = 10
     corner_y = 10
+    width    = 800
+    height   = 600
+    buffer_y_lines = 3
+    
+    textAutoClear = False
 
-    def __init__(self, records, master=None):
+    def __init__(self, domainData, master=None):
         
         # data items to display
         self.options = src.options.Options()
-        self.records = records
+        self.data = domainData
+        self.records = self.data.domainRecords
         
         # get default tkfont and will be used it to measure line lengths
         self.font    = tkinter.font.Font()
@@ -37,24 +43,69 @@ class Ui(tkinter.Frame):
         
         self.current_x = self.corner_x
         self.current_y = self.corner_y
-        self.gutter  = self.font.measure(" | ")
+        self.gutter    = self.font.measure(" | ")
+        self.width     = self.lengthOfHeader() + (2 * self.corner_x)
+        self.height    = self.metrics.height * (len( self.records ) + self.buffer_y_lines)
         
         tkinter.Frame.__init__(self, master)
         self.createWidgets(master)
         self.pack()
         
+    #
+    # event handlers
+    #
+    
+    def onEnterKey(self, event):
+        print( "Enter key in text widget pressed." )
+        # validate text
+        
+        # append conf file
+        text = self.entryUrl.get()
+        
+        # TODO disallow duplicates: text
+        config = getattr( self.data, "config" )
+        config.appendConfFile( text )
+        
+        # parse whois data for new entry
+        parse = src.parse.Parse( text.strip() )
+        #save to conf file
+        self.records.append( parse.record )
+        
+        # re-sort records
+        print(getattr(self.data, "sortField" ))
+        #self.data.sort( getattr( self.data, "sortField" ) )
+        
+        # re-display all records
+        self.resetTable()
+        self.printTable()
+        
+    def autoClearEntry( self, event ):
+        if self.textAutoClear == False:
+            self.entryUrl.delete(0, tkinter.END)
+            self.textAutoClear = True
+            # print( "AutoClear in text widget. textAutoClear: ", self.textAutoClear )
+    
+    #
+    # widgets
+    #    
+    
     def createWidgets(self, master=None):
         self.canvas = tkinter.Canvas(
                                      master, 
-                                     width = 1200, 
-                                     height = 600,
-                                     
+                                     width  = self.width, 
+                                     height = self.height
                                       )
         self.canvas.pack()
 
         self.entryUrl = tkinter.Entry(master, background = 'white', width = 50)
         self.entryUrl.insert(0, "Enter a url: example.com")
+        self.entryUrl.bind("<Return>", self.onEnterKey, 1)
+        self.entryUrl.bind("<Enter>", self.autoClearEntry, 1)
         self.entryUrl.pack()
+     
+    #
+    # data table/canvas related methods
+    #
         
     # TODO pass canvas in as param
     def lineHorizontal(self, orig_x, distal_x, y):
@@ -63,6 +114,10 @@ class Ui(tkinter.Frame):
     # TODO pass canvas in as param
     def lineVertical(self, x, orig_y, distal_y):
         self.canvas.create_line(x, orig_y, x, distal_y)
+        
+    def resetTable(self):
+        self.current_x = self.corner_x
+        self.current_y = self.corner_y
         
     def lengthOfHeader(self):
         lengthOfHeader = 0
@@ -76,7 +131,7 @@ class Ui(tkinter.Frame):
                 
     # special processing for individual options
     def stripSpecial( self, field, text ):
-        if field == "Registrar Registration Expiration Date":
+        if field == "Registrar Registration Expiration Date" or field == "Creation Date":
             text = text.replace( "z", " " )
             text = text.replace( "t", " " )
             
@@ -112,6 +167,7 @@ class Ui(tkinter.Frame):
                             self.current_x + self.lengthOfHeader(), " ",
                            (self.current_y + self.metrics.height))
         
+        # print each record as a line in a table
         for r in self.records:
             # reset line beginning
             self.current_x = self.corner_x
@@ -144,16 +200,10 @@ class Ui(tkinter.Frame):
 #                                    self.current_y, 
 #                                    self.current_y + self.metrics.height 
 #                                    )
-    
-    def autoClearEntry( self ):
-        pass
-    
-    def addNewUrlEntry( self ):
-        pass
 
 if __name__ == '__main__':
-    root = tkinter.Tk()
-    app = Ui(master=root)
-    app.mainloop()
-    
+#     root = tkinter.Tk()
+#     app = Ui(master=root)
+#     app.mainloop()
+    pass
     

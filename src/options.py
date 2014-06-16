@@ -69,6 +69,7 @@ class Options():
                "Domain Name",
                "Registrar URL",
                "Name Server",
+               "Creation Date",
                "Registrar Registration Expiration Date"
                ]
 

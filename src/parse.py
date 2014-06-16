@@ -28,7 +28,7 @@ class Parse():
             else:
                 #print( "Skipped line", countLine )
                 pass
-    
+
     # TODO why does this declare a local var and return a list instead of no return value        
     def callWhois( self, url ):
         with subprocess.Popen(['whois', url], 
@@ -37,10 +37,7 @@ class Parse():
                               ) as proc:
             whoisLines = proc.stdout.read().splitlines()
         return whoisLines
-    
-    def urlValidate( self ):
-        pass 
-
+        
 if __name__ == '__main__':
     '''
     Basic tests for the parse.py class

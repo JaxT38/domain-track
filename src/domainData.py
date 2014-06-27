@@ -35,7 +35,7 @@ class DomainData():
         self.loadTldsFile( self.validExtensions )
         
         # parse the config data
-        self._parse( self.config )
+        self.parseMultiple( self.config )
         
         # sort before display
         # TODO pull out to a class for an "options" panel
@@ -62,15 +62,18 @@ class DomainData():
         else:
             return False
         
-    def _parse( self, config ):
+    def parseAndAppend(self, domain):
+        domain = domain.strip()
+                    
+        if self.checkUrl( domain ) == True:
+            p = src.parse.Parse( domain)
+            self.domainRecords.append( p )
+        else:
+            print( "Malformed url: ", domain )
+        
+    def parseMultiple( self, config ):
         for domain in config.fileBuffer:
-            domain = domain.strip()
-            
-            if self.checkUrl( domain ) == True:
-                p = src.parse.Parse( domain)
-                self.domainRecords.append( p )
-            else:
-                print( "Malformed url: ", domain )
+            self.parseAndAppend(domain)
             
     def sort( self, sortKey ):
         self.domainRecords.sort( key = lambda ddl: ddl.record[sortKey] )

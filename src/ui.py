@@ -44,8 +44,7 @@ class Ui(tkinter.Frame):
         self.current_x = self.corner_x
         self.current_y = self.corner_y
         self.gutter    = self.font.measure(" | ")
-        self.width     = self.lengthOfHeader() + (2 * self.corner_x)
-        self.height    = self.metrics.height * (len( self.records ) + self.buffer_y_lines)
+        self.setSize()
         
         tkinter.Frame.__init__(self, master)
         self.createWidgets(master)
@@ -54,7 +53,8 @@ class Ui(tkinter.Frame):
     #
     # event handlers
     #
-    
+    # TODO: better error handlling when whois times out or does other
+    #       bad things
     def onEnterKey(self, event):
         print( "Enter key in text widget pressed." )
         # validate text
@@ -66,14 +66,11 @@ class Ui(tkinter.Frame):
         config = getattr( self.data, "config" )
         config.appendConfFile( text )
         
-        # parse whois data for new entry
-        parse = src.parse.Parse( text.strip() )
-        #save to conf file
-        self.records.append( parse.record )
+        self.data.parseAndAppend( text )
         
         # re-sort records
-        print(getattr(self.data, "sortField" ))
-        #self.data.sort( getattr( self.data, "sortField" ) )
+        print( "Sorting by: ", getattr(self.data, "sortField" ))
+        self.data.sort( getattr( self.data, "sortField" ) )
         
         # re-display all records
         self.resetTable()
@@ -100,7 +97,7 @@ class Ui(tkinter.Frame):
         self.entryUrl = tkinter.Entry(master, background = 'white', width = 50)
         self.entryUrl.insert(0, "Enter a url: example.com")
         self.entryUrl.bind("<Return>", self.onEnterKey, 1)
-        self.entryUrl.bind("<Enter>", self.autoClearEntry, 1)
+        self.entryUrl.bind("<FocusIn>", self.autoClearEntry, 1)
         self.entryUrl.pack()
      
     #
@@ -118,6 +115,13 @@ class Ui(tkinter.Frame):
     def resetTable(self):
         self.current_x = self.corner_x
         self.current_y = self.corner_y
+        self.canvas.delete("all")
+        self.setSize()
+        self.canvas.config(
+                           width  = self.width, 
+                           height = self.height
+                           )
+        self.pack()
         
     def lengthOfHeader(self):
         lengthOfHeader = 0
@@ -128,6 +132,9 @@ class Ui(tkinter.Frame):
         
         return lengthOfHeader
     
+    def setSize(self):
+        self.width     = self.lengthOfHeader() + (2 * self.corner_x)
+        self.height    = self.metrics.height * (len( self.records ) + self.buffer_y_lines)
                 
     # special processing for individual options
     def stripSpecial( self, field, text ):
@@ -174,6 +181,9 @@ class Ui(tkinter.Frame):
             
             # move down one line
             self.current_y += self.metrics.height
+            
+            # 
+            print( "Current record: ", r.record )
             
             # print record
             for field in self.options.displayItems:

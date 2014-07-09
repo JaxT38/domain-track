@@ -64,6 +64,7 @@ class DomainData():
         
     def parseAndAppend(self, domain):
         domain = domain.strip()
+        print( "DomainData.parseAndAppend: ", domain )
                     
         if self.checkUrl( domain ) == True:
             p = src.parse.Parse( domain)

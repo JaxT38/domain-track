@@ -20,7 +20,7 @@ import src.domainData
 
 class DomainTrack():
     
-    title      = "Domain Tracker - NcsAppSoft.com - 2014"
+    title      = "Domain Tracker - NcsAppSoft.com - 2014 - v. 0.1"
     configFile = "domain_track.conf"
     
     def __init__( self ):

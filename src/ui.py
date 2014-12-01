@@ -8,10 +8,10 @@ Created on Apr 28, 2014
 
 @author: nelsoncs
 '''
-import tkinter
 import tkinter.font
-import src.options
-import src.uiMetrics
+import tkinter.ttk
+import options
+import uiMetrics
 
 class Ui(tkinter.Frame):
     '''
@@ -32,23 +32,22 @@ class Ui(tkinter.Frame):
     def __init__(self, domainData, master=None):
         
         # data items to display
-        self.options = src.options.Options()
+        self.options = options.Options()
         self.data = domainData
         self.records = self.data.domainRecords
         
         # get default tkfont and will be used it to measure line lengths
         self.font    = tkinter.font.Font()
         
-        self.metrics = src.uiMetrics.UiMetrics( self.records, self.font )
+        self.metrics = uiMetrics.UiMetrics( self.records, self.font )
         
         self.current_x = self.corner_x
         self.current_y = self.corner_y
         self.gutter    = self.font.measure(" | ")
         self.setSize()
         
-        tkinter.Frame.__init__(self, master)
         self.createWidgets(master)
-        self.pack()
+        #self.pack()
         
     #
     # event handlers
@@ -87,14 +86,24 @@ class Ui(tkinter.Frame):
     #    
     
     def createWidgets(self, master=None):
+        
+        self.notebook = tkinter.ttk.Notebook(master)
+
+        self.frameMain = tkinter.Frame(master)
+        self.frameOptions = tkinter.Frame(master)
+        
+        self.notebook.add(self.frameMain, text = "Domains")
+        self.notebook.add(self.frameOptions, text = "Options")
+        self.notebook.pack()
+
         self.canvas = tkinter.Canvas(
-                                     master, 
+                                     self.frameMain, 
                                      width  = self.width, 
                                      height = self.height
                                       )
         self.canvas.pack()
 
-        self.entryUrl = tkinter.Entry(master, background = 'white', width = 50)
+        self.entryUrl = tkinter.Entry(self.frameMain, background = 'white', width = 50)
         self.entryUrl.insert(0, "Enter a url: example.com")
         self.entryUrl.bind("<Return>", self.onEnterKey, 1)
         self.entryUrl.bind("<FocusIn>", self.autoClearEntry, 1)
@@ -185,6 +194,8 @@ class Ui(tkinter.Frame):
             # 
             print( "Current record: ", r.record )
             
+            colorCode = r.record['colorCode']
+            
             # print record
             for field in self.options.displayItems:
                 textField = r.record[field].lower()
@@ -199,7 +210,8 @@ class Ui(tkinter.Frame):
                                     anchor = 'nw', 
                                     state = 'normal', 
                                     text = textField,
-                                    font = self.font
+                                    font = self.font,
+                                    fill = colorCode
                                     )
                 # move over by field width
                 self.current_x += self.metrics.lengths[field]

@@ -15,8 +15,8 @@ Created on Apr 28, 2014
 @author: nelsoncs
 '''
 import tkinter
-import src.ui
-import src.domainData
+import ui
+import domainData
 
 class DomainTrack():
     
@@ -29,13 +29,13 @@ class DomainTrack():
         self.root.title( self.title )
         
         # source whois data from urls in config file
-        dd = src.domainData.DomainData( self.configFile )
+        dd = domainData.DomainData( self.configFile )
         
         # instantiate user interface
-        ui = src.ui.Ui( dd, master=self.root )
-        ui.printTable()
+        user = ui.Ui( dd, master=self.root )
+        user.printTable()
         
-        ui.mainloop()  
+        self.root.mainloop()  
 
 if __name__ == '__main__':
     dc = DomainTrack()

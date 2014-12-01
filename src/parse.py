@@ -24,6 +24,9 @@ class Parse():
                 #print( splitElement )
                 #print( splitElement[0], "  : ", splitElement[1] )
                 splitElement[1] = splitElement[1].rstrip("/")
+                
+                # [0] = Options.displayItem[]. 
+                # [1] = Whois line content to right of ':' for the given Option.
                 self.record[splitElement[0]] = splitElement[1].strip()
             else:
                 #print( "Skipped line", countLine )

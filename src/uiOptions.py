@@ -5,12 +5,16 @@ Created on May 19, 2014
 
 tkinter view functions related to the Options data model (class)
 '''
-import src.options
+import options
 # TODO someone please explain to me why you have to import "tkinter.font" instead of tkFont??
 # or just "tkinter"
 import tkinter.font
+import re
+from datetime import datetime
 
-class UiOptions( src.options.Options ):
+class UiOptions( options.Options ):
+    
+    date = re.compile( '(\d+-\d+-\d+)' )
 
     def __init__( self, font ):
         '''
@@ -18,7 +22,7 @@ class UiOptions( src.options.Options ):
         '''
         super().__init__()
         
-        # mapping of heading to indiviual pixel lengths
+        # mapping of heading to individual pixel lengths
         self.lengths = {}
         
         # find length of each header item
@@ -39,6 +43,22 @@ class UiOptions( src.options.Options ):
         return: height in pixels
         '''
         return font.metrics("linespace")
+    
+    # process option for color highlighting
+    def addColorCode(self, domainRecords):
+        
+        for r in domainRecords:
+            
+            #print(self.date.search( r.record["Registrar Registration Expiration Date"] ))
+            subjectDate = datetime.strptime( self.date.search( r.record["Registrar Registration Expiration Date"] ).group(), '%Y-%m-%d') 
+            targetDate = datetime.strptime('2015-06-01', '%Y-%m-%d')
+            if ( subjectDate <= targetDate  ):
+                # set red
+                r.record['colorCode'] = 'red'
+            else:
+                # set black
+                r.record['colorCode'] = 'black'
+            #print( r.record['colorCode'] )
         
 if __name__ == "__main__":
     # root is unused but required to instantiate root.tk.call( font, ... )

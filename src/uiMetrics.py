@@ -6,8 +6,8 @@ tkinter functions related to the Ui view (class)
 '''
 
 import tkinter.font
-import src.domainData
-import src.uiOptions
+import domainData
+import uiOptions
 
 class UiMetrics():
     '''
@@ -24,7 +24,9 @@ class UiMetrics():
         
         # access lengths of Options for table headings
         self.font = font
-        self.option = src.uiOptions.UiOptions( self.font )
+        self.option = uiOptions.UiOptions( self.font )
+        
+        self.option.addColorCode(domainRecords)
                 
         self.domainRecords = domainRecords
         
@@ -36,10 +38,7 @@ class UiMetrics():
         length = 0
         for option in self.option.displayItems:
             for i in range(0, len( self.domainRecords )):
-                length = self.font.measure(
-                                           self.domainRecords[i].record[option], 
-                                           self.font._root.focus_displayof()
-                                           )
+                length = self.font.measure( self.domainRecords[i].record[option] )
                 if length > self.lengths[option]: self.lengths[option] = length
         
         self.height = self.option.height( self.font )
@@ -52,7 +51,7 @@ if __name__ == "__main__":
     #f = tkinter.font.Font( family = 'TkTextFont', size = 42, weight = 'normal'  )
     f = tkinter.font.Font()
     
-    d = src.domainData.DomainData()
+    d = domainData.DomainData("domain_track.conf")
     
     um = UiMetrics( d.domainRecords, f )
     

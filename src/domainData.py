@@ -6,13 +6,13 @@ Created on May 4, 2014
 
 @author: nelsoncs
 '''
-import src.config
-import src.parse
-import src.options
+import config
+import parse
+import options
 
 class DomainData():
     #
-    #  Data as singletons (class attribute)
+    #  Data as singleton (class attribute)
     #
     domainRecords = []
     
@@ -29,7 +29,7 @@ class DomainData():
         self.sortField = "Registrar Registration Expiration Date"
     
         # load the config file
-        self.config = src.config.Config( self.configFile )
+        self.config = config.Config( self.configFile )
         
         # load acceptable tlds extensions
         self.loadTldsFile( self.validExtensions )
@@ -67,7 +67,7 @@ class DomainData():
         print( "DomainData.parseAndAppend: ", domain )
                     
         if self.checkUrl( domain ) == True:
-            p = src.parse.Parse( domain)
+            p = parse.Parse( domain)
             self.domainRecords.append( p )
         else:
             print( "Malformed url: ", domain )
@@ -81,7 +81,7 @@ class DomainData():
     
     # print only items found in options
     def printRecord( self, record ):
-        options = src.options.Options()
+        options = options.Options()
         print("printRecord()")
         for key in options.displayItems:
             print( record[key] )
@@ -95,7 +95,7 @@ if __name__ == '__main__':
     print( dd.domainRecords )
     print("--------------------------###")
      
-    options = src.options.Options()
+    options = options.Options()
      
     for r in dd.domainRecords:
         dd.printRecord( r.record )
